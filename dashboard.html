@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLink OS // Next-Gen Placement Matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020306;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Futuristic Monolithic Blurs */
+        .cyber-panel {
+            background: linear-gradient(180deg, rgba(8, 12, 24, 0.75) 0%, rgba(4, 6, 12, 0.95) 100%);
+            border: 1px solid rgba(6, 182, 212, 0.08);
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.95), inset 0 1px 1px 0px rgba(255, 255, 255, 0.03);
+            position: relative;
+            backdrop-filter: blur(30px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cyber-panel:hover {
+            border-color: rgba(6, 182, 212, 0.25);
+            box-shadow: 0 40px 90px -10px rgba(0, 0, 0, 1), 0 0 30px -10px rgba(6, 182, 212, 0.08);
+        }
+
+        /* Subtle glow effects for titles and numbers */
+        .glow-text-cyan {
+            text-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+        }
+        .glow-text-emerald {
+            text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Smooth Entry Cascades */
+        @keyframes slide-cascade {
+            from { transform: translateY(20px); opacity: 0; filter: blur(8px); }
+            to { transform: translateY(0); opacity: 1; filter: blur(0); }
+        }
+        .animate-cascade { 
+            animation: slide-cascade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            opacity: 0; 
+        }
+
+        .telemetry-row {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.01);
+        }
+        .telemetry-row:hover {
+            background: linear-gradient(90deg, rgba(6, 182, 212, 0.02) 0%, rgba(0,0,0,0) 100%) !important;
+        }
+        
+        .row-healing-active {
+            background: rgba(16, 185, 129, 0.03) !important;
+            border-color: rgba(16, 185, 129, 0.4) !important;
+            box-shadow: inset 0 0 15px rgba(16, 185, 129, 0.05);
+        }
+
+        /* Clean Scrollbars */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #020306; }
+        ::-webkit-scrollbar-thumb { background: rgba(6, 182, 212, 0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(6, 182, 212, 0.4); }
+    </style>
+</head>
+<body class="text-slate-400 min-h-screen antialiased overflow-x-hidden relative">
+
+    <div class="fixed inset-0 pointer-events-none opacity-[0.08] z-0">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <pattern id="cyber-grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(6, 182, 212, 0.15)" stroke-width="0.8"/>
+                <circle cx="0" cy="0" r="1.5" fill="rgba(6, 182, 212, 0.3)"/>
+            </pattern>
+            <linearGradient id="cyber-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.12" />
+                <stop offset="50%" stop-color="#10b881" stop-opacity="0.02" />
+                <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+            </linearGradient>
+            <rect width="100%" height="100%" fill="url(#cyber-grid)" />
+            <circle cx="80%" cy="20%" r="800" fill="url(#cyber-glow)" filter="blur(130px)" />
+        </svg>
+    </div>
+
+    <header class="border-b border-cyan-500/10 bg-[#03050a]/90 backdrop-blur-xl sticky top-0 z-40 px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-3">
+                <div class="h-2 w-2 rounded-sm bg-cyan-500 shadow-[0_0_10px_#06b6d4]"></div>
+                <h1 class="text-xs font-bold font-mono tracking-[0.4em] text-white uppercase">
+                    EDULINK OS <span class="text-cyan-500/40 font-light">// ECOSYSTEM CONTROL MATRIX</span>
+                </h1>
+            </div>
+            <div class="hidden lg:flex items-center space-x-2 border-l border-white/[0.06] pl-6 font-mono text-[9px] text-slate-500 tracking-widest">
+                <span>CORE_ENGINE:</span>
+                <span class="text-cyan-400 font-semibold bg-cyan-950/30 border border-cyan-500/20 px-2 py-0.5 rounded tracking-normal">STABLE_V3.0</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2 font-mono text-[9px] bg-black/40 border border-white/[0.04] px-3 py-1.5 rounded">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b881]"></span>
+                <span class="text-slate-500 tracking-wider">CLOUD_STREAM:</span>
+                <span class="text-emerald-400 font-bold">ONLINE</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="p-6 md:p-8 max-w-[1650px] mx-auto space-y-6 relative z-10">
+        
+        <div class="cyber-panel p-6 rounded-xl flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6捷 animate-cascade" style="animation-delay: 0.05s;">
+            <div class="space-y-1">
+                <div class="text-[9px] font-bold text-cyan-400 font-mono tracking-[0.25em] uppercase flex items-center gap-2">
+                    <span>💡 AUTOMATED INTERACTION APPARATUS</span>
+                </div>
+                <h2 class="text-xl font-bold text-white tracking-tight glow-text-cyan">Bulk Reassignment Control Center</h2>
+                <p class="text-slate-400 text-xs max-w-4xl font-light leading-relaxed">
+                    Identify platform friction points where student applications have stalled. Activating the matching architecture parses candidate technical profiles against empty corporate mandates, instantly resolving ecosystem alignment lag.
+                </p>
+            </div>
+            <div class="flex items-center gap-3 shrink-0 self-end lg:self-center">
+                <button id="unified-action-btn" class="bg-cyan-950/20 hover:bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:border-cyan-500/60 text-[10px] font-bold font-mono uppercase tracking-widest px-6 py-4 rounded-lg transition-all active:scale-[0.98] shadow-inner">
+                    Initialize Batch Matcher
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-stretch animate-cascade" style="animation-delay: 0.1s;">
+            <div class="cyber-panel p-5 rounded-xl flex flex-col justify-between gap-4 h-full overflow-hidden">
+                <div class="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-cyan-500 to-emerald-500 transition-all duration-1000 shadow-[0_0_10px_#06b6d4]" id="health-bar-indicator" style="width: 0%"></div>
+                <div>
+                    <h4 class="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500 font-mono">Ecosystem Alignment Index</h4>
+                    <p id="health-score-desc" class="text-[11px] text-slate-400 mt-1 font-light leading-normal">Scanning network entities for matching configurations...</p>
+                </div>
+                <div class="flex items-baseline space-x-2 shrink-0 bg-black/50 px-3 py-2 border border-white/[0.03] rounded-lg w-fit">
+                    <span id="health-score-val" class="text-2xl font-bold text-cyan-400 font-mono tracking-tighter glow-text-cyan">--.-%</span>
+                </div>
+            </div>
+            
+            <div class="cyber-panel p-5 rounded-xl md:col-span-3 flex flex-col md:flex-row items-center justify-between gap-5 h-full">
+                <div class="w-full md:w-auto space-y-0.5">
+                    <h4 class="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500 font-mono">Dynamic Node Querying</h4>
+                    <p class="text-[11px] text-slate-500 font-light">Filter ecosystem layers by candidate competence, target tags, or corporate names.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto items-stretch sm:items-center">
+                    <input type="text" id="search-input" onkeyup="filterTable()" placeholder="Query system database..." class="bg-black/60 text-white border border-cyan-500/10 text-xs px-4 py-3 rounded-lg focus:outline-none focus:border-cyan-500/40 w-full sm:w-76 font-mono transition-all placeholder:text-slate-700 shadow-inner">
+                    <button onclick="toggleFrictionRows()" id="isolate-btn" class="bg-transparent hover:bg-rose-950/20 text-rose-400 border border-rose-500/20 hover:border-rose-500/40 font-mono text-[10px] font-bold tracking-widest uppercase px-5 py-3 rounded-lg transition-all whitespace-nowrap active:scale-[0.98]">
+                        Isolate Stalled Paths
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start animate-cascade" style="animation-delay: 0.15s;">
+            <div class="lg:col-span-3 cyber-panel rounded-xl p-5 space-y-4">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse table-fixed">
+                        <thead>
+                            <tr class="text-slate-500 font-mono text-[9px] uppercase tracking-[0.25em] bg-black/40 border-b border-cyan-500/10">
+                                <th id="checkbox-header" class="p-4 w-14 text-center opacity-0 transition-opacity duration-300">Pick</th>
+                                <th class="p-4 pl-6 w-36">Matrix Address</th>
+                                <th class="p-4 w-44">Ecosystem Candidate</th>
+                                <th class="p-4 w-52">Assigned Target Entity</th>
+                                <th class="p-4 w-48">Linkage Integrity</th>
+                                <th class="p-4 text-center w-28">Temporal Lag</th>
+                                <th class="p-4 text-center pr-6 w-28">Registry Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matrix-table-body" class="divide-y divide-white/[0.01]">
+                            <tr id="loading-placeholder">
+                                <td colspan="7" class="p-16 text-center text-cyan-500/50 font-mono text-xs tracking-widest animate-pulse">
+                                    COMPILING ECOSYSTEM NETWORK TELEMETRY...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="cyber-panel rounded-xl p-5 space-y-4 flex flex-col h-[585px]">
+                <div class="space-y-0.5">
+                    <h3 class="text-xs font-bold text-white font-mono tracking-wider uppercase flex items-center justify-between">
+                        <span>🛰️ Telemetry Logs</span>
+                        <span class="text-[8px] px-1.5 py-0.5 bg-cyan-950/50 border border-cyan-500/20 text-cyan-400 font-normal rounded">REALTIME</span>
+                    </h3>
+                    <p class="text-[11px] text-slate-500 font-light">Background relational mapping events streams.</p>
+                </div>
+                <div class="bg-black/60 border border-white/[0.02] p-3 rounded-lg text-[10px] space-y-2 shadow-inner">
+                    <div class="text-slate-400 font-bold font-mono tracking-wider text-[8px] uppercase pb-1.5 border-b border-white/[0.04]">System Constants</div>
+                    <div class="space-y-1 font-mono text-[10px] text-slate-500">
+                        <div class="flex justify-between"><span>AUTOMATED_SCHEDULER:</span><span class="text-emerald-400 font-bold">ACTIVE</span></div>
+                        <div class="flex justify-between"><span>TELEMETRY_REFRESH:</span><span class="text-cyan-500">CONTINUOUS</span></div>
+                    </div>
+                </div>
+                <div id="escalation-alert-box" class="flex-1 space-y-2.5 overflow-y-auto pr-1 text-xs font-mono"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="unified-workspace-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden z-50 items-center justify-center p-4 transition-all opacity-0 duration-300">
+        <div class="cyber-panel rounded-2xl max-w-5xl w-full overflow-hidden p-6 space-y-5 border border-cyan-500/30 shadow-[0_0_80px_rgba(6,182,212,0.15)] flex flex-col max-h-[92vh]">
+            
+            <div class="flex justify-between items-start border-b border-cyan-500/10 pb-4 shrink-0">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-3">
+                        <span id="uni-node-id" class="text-[10px] font-bold text-cyan-400 font-mono tracking-wider uppercase bg-cyan-950/50 px-2 py-0.5 rounded-md border border-cyan-500/30 shadow-inner">ADDRESS</span>
+                        <span id="uni-status-badge"></span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white tracking-tight glow-text-cyan">Ecosystem Relationship Blueprint</h3>
+                </div>
+                <button onclick="closeWorkspaceModal()" class="text-slate-500 hover:text-white text-3xl font-light font-mono px-2 transition-colors">&times;</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto pr-1 py-2 flex-1">
+                
+                <div class="space-y-4 border-r border-cyan-500/5 pr-0 md:pr-4">
+                    <div class="bg-cyan-950/10 border border-cyan-500/10 rounded-xl p-4 space-y-4 shadow-inner">
+                        <h4 class="text-[10px] font-bold text-cyan-400 font-mono tracking-widest uppercase flex items-center justify-between">
+                            <span>👨‍💻 Candidate Topology</span>
+                            <span class="text-slate-600 text-[9px] font-normal font-sans">// compiled metrics</span>
+                        </h4>
+                        <div>
+                            <span class="text-[9px] uppercase tracking-wider font-mono text-slate-500 block">Ecosystem Entity</span>
+                            <div id="uni-student-name" class="text-sm font-bold text-white mt-0.5">--</div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-4 pt-1 text-xs">
+                            <div>
+                                <span class="text-[9px] uppercase tracking-wider font-mono text-cyan-500/50 block">🛠️ Verified Technical Competency</span>
+                                <p id="uni-student-skills" class="text-slate-300 font-medium leading-relaxed mt-0.5 font-sans">--</p>
+                            </div>
+                            <div>
+                                <span class="text-[9px] uppercase tracking-wider font-mono text-emerald-500/50 block">🚀 Ecosystem Footprints &amp; Ventures</span>
+                                <p id="uni-student-experience" class="text-emerald-400 font-medium leading-relaxed mt-0.5 font-sans">--</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-[10px] font-bold text-slate-500 font-mono tracking-widest uppercase px-1">Ecosystem Integration Logs</h4>
+                        <div id="uni-history-list" class="space-y-2 max-h-[140px] overflow-y-auto pr-1"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-emerald-950/10 border border-emerald-500/10 rounded-xl p-4 space-y-4 shadow-inner">
+                        <h4 class="text-[10px] font-bold text-emerald-400 font-mono tracking-widest uppercase flex items-center justify-between">
+                            <span>🏢 Target Architecture</span>
+                            <span class="text-slate-600 text-[9px] font-normal font-sans">// core mandates</span>
+                        </h4>
+                        <div>
+                            <span class="text-[9px] uppercase tracking-wider font-mono text-slate-500 block">Corporate Node Name</span>
+                            <div id="uni-company-name" class="text-sm font-bold text-white mt-0.5">--</div>
+                        </div>
+                        <div class="space-y-4 text-xs font-sans">
+                            <div>
+                                <span class="text-[9px] uppercase tracking-wider font-mono text-slate-500 block">🛠️ Target Tech Tools Needed</span>
+                                <p id="uni-company-tech" class="text-slate-300 font-medium leading-relaxed mt-0.5">--</p>
+                            </div>
+                            <div>
+                                <span class="text-[9px] uppercase tracking-wider font-mono text-slate-500 block">🎯 Main Intern Projects</span>
+                                <p id="uni-company-project" class="text-slate-300 font-medium leading-relaxed mt-0.5">--</p>
+                            </div>
+                            <div>
+                                <span class="text-[9px] uppercase tracking-wider font-mono text-emerald-500/50 block">🧠 Workplace Environment &amp; Vibe</span>
+                                <p id="uni-company-culture" class="text-emerald-400 font-medium leading-relaxed mt-0.5">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex justify-end border-t border-cyan-500/10 pt-4 shrink-0">
+                <button onclick="closeWorkspaceModal()" class="border border-cyan-500/20 hover:border-cyan-500/60 text-cyan-400 hover:text-white font-mono text-[10px] uppercase tracking-widest px-5 py-3 rounded-lg transition-colors bg-transparent shadow-md">
+                    Dismiss Active Map
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBirobQobAn9-CJ4hU7GcAwEP_2fxQO1AM",
+            authDomain: "hackathon-774e1.firebaseapp.com",
+            projectId: "hackathon-774e1",
+            storageBucket: "hackathon-774e1.firebasestorage.app",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Core Data Pools (Expanded with more students)
+        const datasets = [
+            { id: "lnk_edu_2026_fy99", student: "Shafiq Aiman", company: "Valiant Venture Partners", pct: 100, timeline: "Done", status: "PLACED", skills: "Java Systems, REST Architecture, Circular Queue Engines", experience: "Built distributed ticket management map app; built local business management tooling." },
+            { id: "lnk_historical_001", student: "Siti Aminah", company: "Lotus Solutions Hub", pct: 66, timeline: "1 Day Left", status: "DELAYED", skills: "Figma Pipelines, Tailwind Design Tokens, Interactive Prototyping", experience: "Designed interface components for university systems; launched a custom embroidery side hustle." },
+            { id: "lnk_historical_002", student: "Muhammad Imran", company: "Amanah Tech Ltd", pct: 0, timeline: "3 Days Left", status: "WAITING", skills: "Structured Array Optimization, Python Automation Scripts, CRUD Implementations", experience: "Developed standalone data structures program; participated in national tech hackathon." },
+            { id: "LNK-4401", student: "Sarah Connor", company: "Lotus Solutions Hub", pct: 33, timeline: "3 Days Left", status: "WAITING", skills: "CI/CD Pipeline Configurations, Cloud Infrastructure Security, Shell Scripting", experience: "Engineered automated server infrastructure tools; organized community technology peer sessions." },
+            { id: "LNK-1092", student: "Chloe Tan Ying", company: "Amanah Tech Ltd", pct: 66, timeline: "3 Days Left", status: "WAITING", skills: "Full-Stack Web Dev, Predictive Analysis, SQL Schema Engineering", experience: "Built e-commerce data visualizers; handles operations and digital marketing for a custom nail business 💅" },
+            { id: "LNK-3329", student: "Daniel Iskandar", company: "Lotus Solutions Hub", pct: 100, timeline: "Done", status: "WAITING", skills: "Mobile Application Architectures, Flutter & Dart Components, UI Telemetry Sync", experience: "Pushed cross-platform tracking application to beta testing environment; system integration manager." },
+            { id: "LNK-5541", student: "Amira Batrisyia", company: "Amanah Tech Ltd", pct: 66, timeline: "3 Days Left", status: "WAITING", skills: "Agile PMBOK Methodologies, Operational Risk Evaluation, System Scrums", experience: "Managed end-to-end timeline planning for application mapping group assignments; event coordinator." },
+            { id: "LNK-7781", student: "Khairul Anwar", company: "Nexus Cyberworks Corp", pct: 100, timeline: "Done", status: "PLACED", skills: "Node.js core, Express Router, Docker container management", experience: "Deployed localized proxy server handlers; customized network system automations." },
+            { id: "LNK-2219", student: "Nurul Izzah", company: "Lotus Solutions Hub", pct: 66, timeline: "2 Days Left", status: "DELAYED", skills: "Figma UI Elements, Design Assets, High-fidelity Prototyping", experience: "Designed layout mockups for an academic hub; manages a personal handmade accessory store." },
+            { id: "LNK-9082", student: "Ryan Lim", company: "Vanguard Labs Inc", pct: 33, timeline: "4 Days Left", status: "WAITING", skills: "Kotlin Mobile Layouts, Swift Frameworks, API Client Connections", experience: "Assembled small mobile client modules; managed social marketing strategy layout for family store." },
+            { id: "LNK-6152", student: "Farhan Hakim", company: "Valiant Venture Partners", pct: 100, timeline: "Done", status: "PLACED", skills: "Java Core Collections, Array Lists, Queue Data Structures", experience: "Engineered simple local scheduling applications; backend structure peer reviewer." },
+            { id: "LNK-1140", student: "Aisha Syazwani", company: "Amanah Tech Ltd", pct: 66, timeline: "1 Day Left", status: "DELAYED", skills: "Python Scripting, SQL Queries, Spreadsheet Automation Scripts", experience: "Built basic pipeline data sanitizers; academic board lead and event logistic framework planner." },
+            { id: "LNK-8843", student: "Jason Wong", company: "Nexus Cyberworks Corp", pct: 0, timeline: "5 Days Left", status: "WAITING", skills: "Bash Automation Scripts, Configuration Profiles, Infrastructure Setup", experience: "Wrote background server check tools; independent technical hobby blogger." },
+            { id: "LNK-4491", student: "Puteri Balqis", company: "Vanguard Labs Inc", pct: 100, timeline: "Done", status: "PLACED", skills: "Digital Marketing Frameworks, Content Strategy planning, UI Mockups", experience: "Launched active branding channels for local student startup initiative; coordinates graphic designs." },
+            { id: "LNK-3302", student: "Adam Harith", company: "Valiant Venture Partners", pct: 33, timeline: "2 Days Left", status: "WAITING", skills: "Java Spring Boot Basics, SQL Databases, Data Mapping Components", experience: "Created internal queue ticket models for lab assignments; server configuration hobbyist." }
+        ];
+
+        const corporateMandates = {
+            "Valiant Venture Partners": { 
+                tech: "Java Spring Boot, PostgreSQL, AWS Cloud Architecture", 
+                project: "Refactoring legacy enterprise request mapping frameworks into atomic micro-services.", 
+                culture: "High autonomy. Prizes engineers who display operational ownership and cross-domain initiative.",
+                keywords: ["java", "queue", "ticket", "backend", "systems"] 
+            },
+            "Lotus Solutions Hub": { 
+                tech: "Figma Enterprise, React Engine, Tailwind CSS, TypeScript", 
+                project: "Deploying production-grade atomic components and responsive analytical telemetry tracking modules.", 
+                culture: "Extreme attention to detail. Values portfolio proof, personal design drive, and side architectural exploration.",
+                keywords: ["figma", "tailwind", "design", "interface", "ui", "front-end"] 
+            },
+            "Amanah Tech Ltd": { 
+                tech: "Python Flask, MySQL Databases, Basic Bash scripting", 
+                project: "Automating structured backend metrics extraction pipelines and generating automated system health monitoring sheets.", 
+                culture: "Fast-moving agile squads. Prioritizes foundational application problem-solving over rigid grading structures.",
+                keywords: ["python", "array", "data structures", "sql", "pmbok", "risk"] 
+            },
+            "Nexus Cyberworks Corp": { 
+                tech: "Node.js core, Express Router, Docker, Redis Cache", 
+                project: "Configuring real-time WebSocket messaging proxies and concurrent system state handlers.", 
+                culture: "High-throughput operational environments. Seeks builders who love continuous optimization loops.",
+                keywords: ["automation", "infrastructure", "shell", "scripts", "standalone", "server"] 
+            },
+            "Vanguard Labs Inc": { 
+                tech: "Kotlin, Swift, Firebase Database Integrations", 
+                project: "Optimizing memory profiles for decentralized cross-device client platforms.", 
+                culture: "Disruptive innovation teams. Loves founders, builders, and hyper-motivated project managers.",
+                keywords: ["business", "nail", "embroidery", "hustle", "initiative", "marketing"] 
+            }
+        };
+
+        let trackingCacheMemory = {};
+        let delayedFilterActive = false;
+        let currentDisplayedScore = 0;
+        let internalUIState = "INITIAL";
+
+        function logActivityStream(message, level = "INFO") {
+            const alertBox = document.getElementById('escalation-alert-box');
+            if (!alertBox) return;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            let borderClass = "border-cyan-500/40 text-cyan-400";
+            if (level === "CRITICAL") borderClass = "border-rose-500/50 text-rose-400";
+            if (level === "SUCCESS") borderClass = "border-emerald-500/50 text-emerald-400";
+
+            const logRow = document.createElement('div');
+            logRow.className = `bg-black/40 border-l-2 ${borderClass} p-3 rounded-r-lg space-y-1 text-[11px] animate-cascade border-r border-y border-white/[0.01]`;
+            logRow.innerHTML = `
+                <div class="flex justify-between font-mono text-[9px] text-slate-600">
+                    <span>MONITOR_[${level}]</span>
+                    <span>${timestamp}</span>
+                </div>
+                <p class="text-slate-300 font-sans tracking-wide font-light">${message}</p>
+            `;
+            alertBox.insertBefore(logRow, alertBox.firstChild);
+        }
+
+        function animateCounter(targetValue) {
+            const healthElement = document.getElementById('health-score-val');
+            const descElement = document.getElementById('health-score-desc');
+            const indicator = document.getElementById('health-bar-indicator');
+            if (!healthElement) return;
+
+            clearInterval(window.healthScoreInterval);
+            window.healthScoreInterval = setInterval(() => {
+                if (Math.abs(currentDisplayedScore - targetValue) < 0.1) {
+                    currentDisplayedScore = targetValue;
+                    clearInterval(window.healthScoreInterval);
+                } else {
+                    currentDisplayedScore += (targetValue - currentDisplayedScore) * 0.1;
+                }
+                
+                healthElement.innerText = `${currentDisplayedScore.toFixed(1)}%`;
+                if(indicator) indicator.style.width = `${currentDisplayedScore}%`;
+
+                if (descElement) {
+                    descElement.innerText = currentDisplayedScore >= 85 
+                        ? "Ecosystem density stable. No relational deadlocks detected."
+                        : "Structural processing bottlenecks present. Automated rerouting accessible.";
+                }
+            }, 16);
+        }
+
+        function calculateAndUpdateSystemHealth() {
+            let totalPercentages = 0;
+            datasets.forEach(d => {
+                const liveData = trackingCacheMemory[d.id];
+                totalPercentages += liveData ? liveData.pct : d.pct;
+            });
+            const healthAverage = (totalPercentages / (datasets.length * 100)) * 100;
+            animateCounter(healthAverage);
+        }
+
+        async function streamDashboardMatrix() {
+            const tableBody = document.getElementById('matrix-table-body');
+            tableBody.innerHTML = "";
+            let indexCounter = 0;
+
+            datasets.forEach((data) => {
+                indexCounter++;
+                const tableRow = document.createElement('tr');
+                tableRow.id = `row-${data.id}`;
+                tableRow.className = "telemetry-row bg-transparent font-medium opacity-0";
+                tableRow.style.animation = `slide-cascade 0.5s ease-out ${indexCounter * 0.05}s forwards`;
+                
+                let historyPool = [];
+                if (data.pct < 100) {
+                    historyPool.push({ company: data.company, date: "Ecosystem Audit Check", outcome: "METRIC_LAG" });
+                } else {
+                    historyPool.push({ company: data.company, date: "Genesis Configuration", outcome: "ENGAGED" });
+                }
+
+                trackingCacheMemory[data.id] = { 
+                    id: data.id,
+                    pct: data.pct, 
+                    status: data.status, 
+                    company: data.company, 
+                    student: data.student,
+                    timeline: data.timeline,
+                    skills: data.skills,
+                    experience: data.experience,
+                    history: historyPool
+                };
+                
+                let barColor = "bg-emerald-500 shadow-[0_0_8px_#10b881]";
+                if(data.status === "DELAYED") barColor = "bg-amber-500 shadow-[0_0_8px_#f59e0b]";
+                if(data.pct === 100) barColor = "bg-cyan-500 shadow-[0_0_8px_#06b6d4]";
+
+                let timelineClass = data.timeline === "Safe" || data.timeline === "Done" ? "text-cyan-400 font-bold" : "text-rose-400 font-bold";
+                
+                let badgeMarkup = `<span class="border border-cyan-500/20 text-cyan-400 bg-cyan-950/20 text-[9px] font-bold font-mono tracking-widest px-2.5 py-1 rounded-md uppercase">${data.status}</span>`;
+                if(data.status === 'DELAYED') {
+                    badgeMarkup = `<span class="border border-amber-500/20 text-amber-400 bg-amber-950/20 text-[9px] font-bold font-mono tracking-widest px-2.5 py-1 rounded-md uppercase animate-pulse">${data.status}</span>`;
+                }
+
+                if (data.pct < 100) {
+                    logActivityStream(`Relational deadlock observed at endpoint node: ${data.student}.`, "CRITICAL");
+                }
+
+                tableRow.innerHTML = `
+                    <td class="p-4 select-col text-center opacity-0 pointer-events-none transition-opacity duration-300">
+                        <input type="checkbox" value="${data.id}" class="matrix-select-row rounded bg-black border-cyan-500/20 text-cyan-500 focus:ring-0 cursor-pointer" onchange="evaluateLiveRoutePreviews()">
+                    </td>
+                    <td class="p-4 pl-6 font-mono text-cyan-400/80 text-[11px] truncate cursor-pointer hover:text-cyan-400 hover:underline transition-colors" onclick="openUnifiedWorkspace('${data.id}')">${data.id}</td>
+                    <td class="p-4 text-white text-[13px] font-bold tracking-wide truncate">${data.student}</td>
+                    <td class="p-4 text-slate-300 tracking-wide text-[12px] id-company-cell truncate cursor-pointer hover:text-emerald-400 transition-colors" onclick="openUnifiedWorkspace('${data.id}')">${data.company}</td>
+                    <td class="p-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-full bg-cyan-950/40 border border-white/[0.02] rounded-full h-[4px] overflow-hidden progress-wrapper">
+                                <div class="${barColor} h-full rounded-full transition-all duration-700" style="width: ${data.pct}%"></div>
+                            </div>
+                            <span class="font-mono text-[10px] text-slate-500 w-8 text-right pct-label">${data.pct}%</span>
+                        </div>
+                    </td>
+                    <td class="p-4 text-center ${timelineClass} font-mono text-[12px] timeline-cell truncate">${data.timeline}</td>
+                    <td class="p-4 text-center pr-6 status-cell">${badgeMarkup}</td>
+                `;
+
+                tableBody.appendChild(tableRow);
+            });
+
+            calculateAndUpdateSystemHealth();
+        }
+
+        function calculateTopAIMatch(studentId) {
+            const student = trackingCacheMemory[studentId];
+            if (!student) return null;
+
+            const contentString = `${student.skills} ${student.experience}`.toLowerCase();
+            let leadingCompany = "";
+            let highestMatchScore = -1;
+
+            for (const [compName, mandate] of Object.entries(corporateMandates)) {
+                if (compName === student.company && student.pct < 100) continue;
+
+                let currentScore = 0;
+                mandate.keywords.forEach(word => {
+                    if (contentString.includes(word)) currentScore += 25;
+                });
+                
+                if (currentScore === 0) currentScore = 10; 
+
+                if (currentScore > highestMatchScore) {
+                    highestMatchScore = currentScore;
+                    leadingCompany = compName;
+                }
+            }
+            
+            const displayPercentage = Math.min(98, Math.max(65, highestMatchScore));
+            return { company: leadingCompany, confidence: displayPercentage };
+        }
+
+        window.evaluateLiveRoutePreviews = function() {
+            datasets.forEach(d => {
+                const row = document.getElementById(`row-${d.id}`);
+                if (!row) return;
+
+                const checkbox = row.querySelector('.matrix-select-row');
+                const companyCell = row.querySelector('.id-company-cell');
+
+                if (checkbox && checkbox.checked) {
+                    const optimalMatch = calculateTopAIMatch(d.id);
+                    if (optimalMatch) {
+                        companyCell.innerHTML = `
+                            <div class="text-emerald-400 font-bold text-[12px] flex items-center gap-2">
+                                <span class="h-1.5 w-1.5 bg-emerald-400 rounded-full shadow-[0_0_6px_#10b881]"></span>
+                                ${optimalMatch.company} 
+                                <span class="bg-emerald-950/50 border border-emerald-500/30 text-emerald-400 text-[8px] px-1.5 py-0.5 rounded-sm font-mono tracking-normal">[${optimalMatch.confidence}% INTEGRITY]</span>
+                            </div>
+                        `;
+                    }
+                } else {
+                    if (trackingCacheMemory[d.id]) {
+                        companyCell.innerHTML = trackingCacheMemory[d.id].company;
+                        if (trackingCacheMemory[d.id].status === "REASSIGNED") {
+                            companyCell.innerHTML = `
+                                <div class="text-white flex flex-col">
+                                    <span>${trackingCacheMemory[d.id].company}</span>
+                                    <span class='text-cyan-400 text-[9px] font-mono tracking-widest mt-0.5'>// AUTOMATED_LINK_ENGAGED</span>
+                                </div>
+                            `;
+                        }
+                    }
+                }
+            });
+        };
+
+        window.openUnifiedWorkspace = function(id) {
+            const record = trackingCacheMemory[id];
+            if (!record) return;
+
+            document.getElementById('uni-node-id').innerText = record.id;
+            document.getElementById('uni-student-name').innerText = record.student;
+            document.getElementById('uni-student-skills').innerText = record.skills;
+            document.getElementById('uni-student-experience').innerText = record.experience;
+            
+            const badge = document.getElementById('uni-status-badge');
+            if (record.pct === 100) {
+                badge.innerHTML = `<span class="border border-cyan-500/30 bg-cyan-950/40 text-cyan-400 text-[9px] font-bold font-mono px-2.5 py-0.5 rounded-md shadow-inner">ROUTING_SUCCESS</span>`;
+            } else {
+                badge.innerHTML = `<span class="border border-amber-500/30 bg-amber-950/40 text-amber-400 text-[9px] font-bold font-mono px-2.5 py-0.5 rounded-md animate-pulse shadow-inner">RELATIONAL_LAG</span>`;
+            }
+
+            const historyContainer = document.getElementById('uni-history-list');
+            historyContainer.innerHTML = "";
+            record.history.forEach(hist => {
+                const item = document.createElement('div');
+                item.className = "flex justify-between items-center text-[10px] font-mono bg-black/60 p-2.5 border border-white/[0.02] rounded-lg shadow-inner";
+                const color = hist.outcome.includes("LAG") ? "text-rose-400" : "text-cyan-400";
+                item.innerHTML = `
+                    <div class="text-slate-400 truncate max-w-[240px]">${hist.company}</div>
+                    <div class="${color} font-bold text-[9px] uppercase tracking-wider">${hist.outcome}</div>
+                `;
+                historyContainer.appendChild(item);
+            });
+
+            const companyName = record.company;
+            const mandate = corporateMandates[companyName] || { 
+                tech: "General architectural baseline protocols.", 
+                project: "To be dynamically structured upon pipeline engagement.", 
+                culture: "Highly agile decentralised platform framework metrics." 
+            };
+
+            document.getElementById('uni-company-name').innerText = companyName;
+            document.getElementById('uni-company-tech').innerText = mandate.tech;
+            document.getElementById('uni-company-project').innerText = mandate.project;
+            document.getElementById('uni-company-culture').innerText = mandate.culture;
+
+            const targetModal = document.getElementById('unified-workspace-modal');
+            targetModal.classList.remove('hidden');
+            targetModal.classList.add('flex');
+            setTimeout(() => targetModal.classList.remove('opacity-0'), 10);
+        };
+
+        window.closeWorkspaceModal = function() {
+            const targetModal = document.getElementById('unified-workspace-modal');
+            targetModal.classList.add('opacity-0');
+            setTimeout(() => {
+                targetModal.classList.add('hidden');
+                targetModal.classList.remove('flex');
+            }, 300);
+        };
+
+        window.filterTable = function() {
+            const searchVal = document.getElementById('search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('#matrix-table-body tr');
+            
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                const rowId = row.id.replace('row-', '');
+                const cacheData = trackingCacheMemory[rowId];
+                const isFrictionNode = cacheData ? cacheData.pct < 100 : false;
+                
+                if (delayedFilterActive) {
+                    row.style.display = (isFrictionNode && text.includes(searchVal)) ? '' : 'none';
+                } else {
+                    row.style.display = text.includes(searchVal) ? '' : 'none';
+                }
+            });
+        };
+
+        window.toggleFrictionRows = function() {
+            const btn = document.getElementById('isolate-btn');
+            delayedFilterActive = !delayedFilterActive;
+            
+            if (delayedFilterActive) {
+                btn.className = "bg-rose-950/40 text-rose-300 border border-rose-500/40 font-mono text-[10px] font-bold tracking-widest uppercase px-5 py-3 rounded-lg transition-all whitespace-nowrap";
+                btn.innerText = "Deactivate Isolation";
+            } else {
+                btn.className = "bg-transparent hover:bg-rose-950/20 text-rose-400 border border-white/[0.08] hover:border-rose-500/30 font-mono text-[10px] font-bold tracking-widest uppercase px-5 py-3 rounded-lg transition-all whitespace-nowrap";
+                btn.innerText = "Isolate Stalled Paths";
+            }
+            window.filterTable();
+        };
+
+        document.getElementById('unified-action-btn').addEventListener('click', function() {
+            const btn = this;
+
+            if (internalUIState === "INITIAL") {
+                internalUIState = "PENDING_EXECUTION";
+                
+                document.getElementById('checkbox-header').classList.remove('opacity-0');
+                
+                const rows = document.querySelectorAll('#matrix-table-body tr');
+                rows.forEach(row => {
+                    const rowId = row.id.replace('row-', '');
+                    const cacheData = trackingCacheMemory[rowId];
+                    const selectColumn = row.querySelector('.select-col');
+                    
+                    if (selectColumn) {
+                        if (cacheData && cacheData.pct < 100) {
+                            selectColumn.classList.remove('opacity-0', 'pointer-events-none');
+                        } else {
+                            selectColumn.classList.add('opacity-0', 'pointer-events-none');
+                            const checkboxInput = selectColumn.querySelector('input');
+                            if (checkboxInput) checkboxInput.checked = false;
+                        }
+                    }
+                });
+                
+                btn.innerText = "Execute Reassignment Array";
+                btn.className = "bg-emerald-500 text-black font-mono text-[10px] font-bold tracking-widest uppercase px-6 py-4 rounded-lg transition-all shadow-[0_0_25px_rgba(16,185,129,0.35)] active:scale-[0.98]";
+                logActivityStream("Relational restructuring mode active. Awaiting matrix verification.", "INFO");
+                
+            } else if (internalUIState === "PENDING_EXECUTION") {
+                const checkedBoxes = document.querySelectorAll('.matrix-select-row:checked');
+                
+                if (checkedBoxes.length === 0) {
+                    resetActionController(btn);
+                    return;
+                }
+
+                checkedBoxes.forEach((cb) => {
+                    const id = cb.value;
+                    const rowElement = document.getElementById(`row-${id}`);
+                    if (!rowElement) return;
+
+                    rowElement.classList.add('row-healing-active');
+                    
+                    setTimeout(() => {
+                        if(trackingCacheMemory[id]) {
+                            const previousCompany = trackingCacheMemory[id].company;
+                            
+                            const aiRoute = calculateTopAIMatch(id);
+                            const pickedCompany = aiRoute ? aiRoute.company : "Nexus Cyberworks Corp";
+
+                            trackingCacheMemory[id].history.unshift({
+                                company: previousCompany,
+                                date: "Automated Optimizer Engine",
+                                outcome: "RE-ROUTED"
+                            });
+
+                            trackingCacheMemory[id].pct = 100;
+                            trackingCacheMemory[id].status = "REASSIGNED";
+                            trackingCacheMemory[id].company = pickedCompany;
+                            trackingCacheMemory[id].timeline = "Safe";
+                            
+                            const companyCell = rowElement.querySelector('.id-company-cell');
+                            if (companyCell) {
+                                companyCell.innerHTML = `
+                                    <div class="text-white flex flex-col">
+                                        <span>${pickedCompany}</span>
+                                        <span class='text-emerald-400 font-mono text-[9px] tracking-normal mt-0.5'>// LINK_HEALED [${aiRoute.confidence}% FIT]</span>
+                                    </div>
+                                `;
+                            }
+
+                            const prog = rowElement.querySelector('.progress-wrapper div');
+                            if (prog) { 
+                                prog.className = "bg-[#06b6d4] h-full rounded-full shadow-[0_0_8px_#06b6d4]"; 
+                                prog.style.width = "100%"; 
+                            }
+                            
+                            const lbl = rowElement.querySelector('.pct-label');
+                            if (lbl) lbl.innerText = "100%";
+
+                            const timeline = rowElement.querySelector('.timeline-cell');
+                            if (timeline) { 
+                                timeline.className = "p-4 text-center text-cyan-400 font-bold font-mono text-[12px] truncate"; 
+                                timeline.innerText = "Done"; 
+                            }
+
+                            const statusCell = rowElement.querySelector('.status-cell');
+                            if (statusCell) statusCell.innerHTML = `<span class="border border-cyan-500/30 bg-cyan-950/20 text-cyan-400 text-[9px] font-bold font-mono tracking-widest px-2.5 py-1 rounded-md uppercase">REASSIGNED</span>`;
+                            
+                            logActivityStream(`Optimization complete: Reassigned node ${trackingCacheMemory[id].student} to architecture layer: ${pickedCompany}.`, "SUCCESS");
+                        }
+                        rowElement.classList.remove('row-healing-active');
+                        
+                        window.filterTable();
+                        calculateAndUpdateSystemHealth();
+                    }, 600);
+                });
+
+                setTimeout(() => {
+                    resetActionController(btn);
+                }, 900);
+            }
+        });
+
+        function resetActionController(btnElement) {
+            internalUIState = "INITIAL";
+            document.getElementById('checkbox-header').classList.add('opacity-0');
+            
+            document.querySelectorAll('.select-col').forEach(c => {
+                c.classList.add('opacity-0', 'pointer-events-none');
+                const checkboxInput = c.querySelector('input');
+                if (checkboxInput) checkboxInput.checked = false;
+            });
+            
+            btnElement.innerText = "Initialize Batch Matcher";
+            btnElement.className = "bg-cyan-950/20 hover:bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:border-cyan-500/60 text-[10px] font-bold font-mono uppercase tracking-widest px-6 py-4 rounded-lg transition-all active:scale-[0.98]";
+            window.evaluateLiveRoutePreviews();
+        }
+
+        window.addEventListener('DOMContentLoaded', streamDashboardMatrix);
+    </script>
+</body>
+</html>
